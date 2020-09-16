@@ -28,7 +28,7 @@ const Matrix = () => {
         }}>乱序</button>
         <TransitionFLIPS
           wrapClassName="matrix"
-          duration={600}
+          duration={300}
         >
           {
             matrix && matrix.map((m) => (
