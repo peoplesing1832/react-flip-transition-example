@@ -24,25 +24,27 @@ const Matrix = () => {
   useEffect(() => {
     setInterval(() => {
       setMatrix((prev) => [...shuffle(prev)]);
-    }, 1500);
+    }, 2000);
   }, []);
 
   return (
-    <div className="matrix-container">
-      <TransitionFLIPS
-        wrapClassName="matrix"
-        duration={900}
-        easing="cubic-bezier(.62,.78,.62,1.35)"
-      >
-        {
-          matrix && matrix.map((m) => (
-            <TransitionFLIP flipId={m} key={m}>
-              <div className="matrix-item">{ m }</div>
-            </TransitionFLIP>
-          ))
-        }
-      </TransitionFLIPS>
-    </div>
+    <>
+      <div className="matrix-container">
+        <TransitionFLIPS
+          wrapClassName="matrix"
+          duration={800}
+        >
+          {
+            matrix && matrix.map((m) => (
+              <TransitionFLIP flipId={m} key={m}>
+                <div className="matrix-item">{ m }</div>
+              </TransitionFLIP>
+            ))
+          }
+        </TransitionFLIPS>
+      </div>
+    </>
+
   )
 }
 

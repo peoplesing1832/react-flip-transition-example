@@ -8,6 +8,7 @@ import {
 import Matrix from './page/Matrix';
 import TodoList from './page/TodoList';
 import Nav from './page/Nav';
+import Home from './page/Home';
 
 function App() {
   return (
@@ -15,12 +16,15 @@ function App() {
       <div className="App">
         <Switch>
           <Route exact path="/">
+            <Home />
+          </Route>
+          <Route exact path="/matrix">
             <Matrix />
           </Route>
-          <Route path="/todolist">
+          <Route exact path="/todolist">
             <TodoList />
           </Route>
-          <Route path="/nav">
+          <Route exact path="/nav">
             <Nav />
           </Route>
         </Switch>
