@@ -1,14 +1,23 @@
 .matrix-container {
   display: flex;
-  justify-content: center;
+  justify-content: top;
   align-items: center;
+  flex-direction: column;
   width: 100vw;
   height: 100vh;
 }
 
+.matrix-container button {
+  width: 100px;
+  height: 40px;
+  margin: 40px 0;
+  line-height: 40px;
+  padding: 0;
+}
+
 .matrix {
-  width: 500px;
-  height: 500px;
+  width: 400px;
+  height: 400px;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;

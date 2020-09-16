@@ -1,6 +1,5 @@
 import React, {
   useState,
-  useEffect,
 } from 'react';
 import {
   shuffle
@@ -15,24 +14,21 @@ const Matrix = () => {
 
   const [matrix, setMatrix] = useState(() => {
     let arr = [];
-    for (let i = 0; i < 99; i++) {
+    for (let i = 0; i < 49; i++) {
       arr.push(i);
     }
     return arr;
   });
 
-  useEffect(() => {
-    setInterval(() => {
-      setMatrix((prev) => [...shuffle(prev)]);
-    }, 2000);
-  }, []);
-
   return (
     <>
       <div className="matrix-container">
+        <button onClick={() => {
+          setMatrix((prev) => [...shuffle(prev)]);
+        }}>乱序</button>
         <TransitionFLIPS
           wrapClassName="matrix"
-          duration={800}
+          duration={600}
         >
           {
             matrix && matrix.map((m) => (
