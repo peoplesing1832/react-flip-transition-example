@@ -6,33 +6,84 @@ import {
   TransitionFLIP,
   TransitionFLIPS,
 } from 'react-flip-transition'
+import './index.css';
 
 const TodoList = () => {
 
   const [list, setList] = useState([
     {
       id: uuid(),
-      name: '西尔莎罗南'
+      name: '1. 西尔莎罗南'
     },
     {
       id: uuid(),
-      name: '艾玛沃森'
+      name: '2. 艾玛沃森'
     },
     {
       id: uuid(),
-      name: '娜塔丽波特曼'
+      name: '3. 娜塔丽波特曼'
+    },
+    {
+      id: uuid(),
+      name: '4. 艾伦佩吉'
+    },
+    {
+      id: uuid(),
+      name: '5. 詹妮弗康纳利'
+    },
+    {
+      id: uuid(),
+      name: '6. 朱迪福斯特'
     }
   ]);
 
 
   return (
-    <div>
-      <TransitionFLIPS>
+    <div className="list-container">
+      <button
+        className="list-button"
+        onClick={() => {
+          const str = window.prompt('添加一个你喜欢的明星')
+          if (str) {
+            setList(prev => [...prev, {
+              name: str,
+              id: uuid(),
+            }])
+          }
+        }}
+      >添加</button>
+      <TransitionFLIPS
+        wrapClassName="list"
+        transitionStyles={{
+          leave: {
+            opacity: 0
+          },
+          leaveing: {
+            opacity: 0,
+            transform: `translateX(50px)`,
+          },
+          enter: {
+            opacity: 1,
+          },
+          entering: {
+            opacity: 1,
+          }
+        }}
+      >
         {
           list && list.map((li) => {
             return (
-              <TransitionFLIP flipId={li.id} key={li.id}>
-                <div>{ li.name }</div>
+              <TransitionFLIP
+                flipId={li.id}
+                key={li.id}>
+                <div className="list-item">
+                  <span>{ li.name }</span>
+                  <span onClick={() => {
+                    setList((prev) => {
+                      return [...prev.filter(item => item.id !== li.id)]
+                    })
+                  }}>删除</span>
+                </div>
               </TransitionFLIP>
             )
           })
