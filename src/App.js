@@ -7,7 +7,6 @@ import {
 } from "react-router-dom";
 import Matrix from './page/Matrix';
 import TodoList from './page/TodoList';
-import Nav from './page/Nav';
 import Home from './page/Home';
 
 function App() {
@@ -23,9 +22,6 @@ function App() {
           </Route>
           <Route exact path="/list">
             <TodoList />
-          </Route>
-          <Route exact path="/nav">
-            <Nav />
           </Route>
         </Switch>
       </div>
