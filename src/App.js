@@ -21,7 +21,7 @@ function App() {
           <Route exact path="/matrix">
             <Matrix />
           </Route>
-          <Route exact path="/todolist">
+          <Route exact path="/list">
             <TodoList />
           </Route>
           <Route exact path="/nav">

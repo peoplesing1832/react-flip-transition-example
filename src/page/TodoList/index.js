@@ -7,6 +7,9 @@ import {
   TransitionFLIPS,
 } from 'react-flip-transition'
 import './index.css';
+import {
+  shuffle
+} from 'lodash';
 
 const TodoList = () => {
 
@@ -52,8 +55,15 @@ const TodoList = () => {
           }
         }}
       >添加</button>
+      <button
+        className="list-button"
+        onClick={() => {
+          setList((prev) => [...shuffle(prev)]);
+        }}
+      >乱序</button>
       <TransitionFLIPS
         wrapClassName="list"
+        duration={600}
         transitionStyles={{
           leave: {
             opacity: 0
