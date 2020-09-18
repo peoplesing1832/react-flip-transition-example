@@ -12,7 +12,7 @@ const Home = () => {
           <h1>效果预览:</h1>
         </li>
         <li>
-          <Link Link to="/matrix">多维网格</Link>
+          <Link to="/matrix">多维网格</Link>
         </li>
         <li>
           <Link to="/list">列表</Link>
