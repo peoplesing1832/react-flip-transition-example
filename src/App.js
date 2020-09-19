@@ -8,6 +8,7 @@ import {
 import Matrix from './page/Matrix';
 import TodoList from './page/TodoList';
 import Home from './page/Home';
+import Staggered from './page/Staggered';
 
 function App() {
   return (
@@ -22,6 +23,9 @@ function App() {
           </Route>
           <Route exact path="/list">
             <TodoList />
+          </Route>
+          <Route exact path="/staggered">
+            <Staggered />
           </Route>
         </Switch>
       </div>
