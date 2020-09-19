@@ -1,8 +1,8 @@
 const createAnimation = (
-  ele: HTMLElement,
-  keyframes: Keyframe[],
-  options: KeyframeAnimationOptions,
-): Animation => {
+  ele,
+  keyframes,
+  options
+) => {
   const effect = new KeyframeEffect(ele, keyframes, options);
   return new Animation(effect, document.timeline);
 };

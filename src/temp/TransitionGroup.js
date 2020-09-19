@@ -6,32 +6,15 @@ import {
   useEffect,
 } from 'react';
 import {
-  TransitionProps,
-} from './Transition';
-import {
   isUnd,
 } from './util/checkType';
 
-// TODO: 需要完善类型
-interface TransitionGroup {
-  animation?: boolean; // 是否开启动画
-  interval?: number; // group间隔的时间
-}
-
-export type TransitionPropsAndID = TransitionProps & {
-  ID: string;
-}
-type TransitionContextPropsKey = Exclude<keyof TransitionPropsAndID, 'delay' | 'animation'>;
-type TransitionContextProps = Omit<TransitionPropsAndID, TransitionContextPropsKey>;
-
 export const TransitionContext = React.createContext({
-  animations: {} as {
-    [key: string]: TransitionContextProps;
-  },
-  register: (props: TransitionPropsAndID): void => {},
+  animations: {},
+  register: (props) => {},
 });
 
-const TransitionGroup: React.FC<TransitionGroup> = (props) => {
+const TransitionGroup = (props) => {
 
   const {
     animation = false,
@@ -40,8 +23,8 @@ const TransitionGroup: React.FC<TransitionGroup> = (props) => {
   } = props;
 
   const [animations, setAnimations] = useState({});
-  const animationsRef = useRef<Map<string, TransitionPropsAndID>>(new Map());
-  const register = useCallback((props: TransitionPropsAndID) => {
+  const animationsRef = useRef(new Map());
+  const register = useCallback((props) => {
     const { ID } = props;
     if (!isUnd(ID)) {
       animationsRef.current.set(ID, props)
@@ -51,9 +34,7 @@ const TransitionGroup: React.FC<TransitionGroup> = (props) => {
   useEffect(() => {
     let counter = 0;
     const transition = [...animationsRef.current.values()] || [];
-    const animationsTemp: {
-      [key: string]: TransitionContextProps;
-    } = {};
+    const animationsTemp = {};
     (animation ? transition : [...transition.reverse()]).forEach((t) => {
       const { ID } = t;
       if (!isUnd(ID)) {

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as React from 'react';
 import {
   useState,
@@ -5,54 +6,17 @@ import {
   useEffect,
 } from 'react';
 import {
-  ChildrenMap
-} from './TransitionQueue';
-import {
   isFunc,
 } from './util/checkType';
-import {
-  TransitionStyles,
-} from './Transition';
-import {
-  TransitionFLIP
-} from './TransitionFLIP';
 
-type Rect = DOMRect | ClientRect;
-
-interface CatchStylesValue {
-  rect: Rect;
-  styles: CSSStyleDeclaration,
-}
-
-interface FLIPSContext {
-  catchStyles: CatchStylesMap;
-  catchAnimations: CatchAnimations;
-  animationOption: KeyframeAnimationOptions;
-}
-
-type CatchStylesMap = Map<string | number, CatchStylesValue>;
-type CatchAnimations = Map<string | number, Animation>;
-
-export const FLIPSContext = React.createContext<FLIPSContext>({
+export const FLIPSContext = React.createContext({
   catchStyles: new Map(),
   catchAnimations: new Map(),
   animationOption: {},
 });
 
-interface TransitionFLIPS {
-  delay?: number;
-  duration?: number;
-  inOutDuration?: number;
-  easing?: string;
-  fill?: 'auto' | 'backwards' | 'both' | 'forwards' | 'none' | undefined;
-  wrap?: string;
-  wrapClassName?: string;
-  transitionStyles?: TransitionStyles;
-  staggerReverse?: boolean;
-  interval?: number;
-}
 
-const TransitionFLIPS: React.FC<TransitionFLIPS> = (props) => {
+const TransitionFLIPS = (props) => {
 
   const {
     delay = 0,
@@ -73,7 +37,7 @@ const TransitionFLIPS: React.FC<TransitionFLIPS> = (props) => {
     interval = 150,
   } = props;
 
-  const handleLeave = (key: React.ReactText) => {
+  const handleLeave = (key) => {
     setChildren((prevChildren) => {
       if (key in prevChildren) {
         delete prevChildren[key];
@@ -82,10 +46,10 @@ const TransitionFLIPS: React.FC<TransitionFLIPS> = (props) => {
     });
   };
 
-  const mergeMap = (prev: ChildrenMap, next: ChildrenMap): ChildrenMap => {
+  const mergeMap = (prev, next) => {
     prev = prev || {};
     next = next || {};
-    function getValueForKey(key: React.ReactText) {
+    function getValueForKey(key) {
       return key in next ? next[key] : prev[key];
     }
     let nextKeysPending = Object.create(null);
@@ -101,7 +65,7 @@ const TransitionFLIPS: React.FC<TransitionFLIPS> = (props) => {
       }
     }
     let i;
-    let childMapping: ChildrenMap = {};
+    let childMapping = {};
     for (let nextKey in next) {
       if (nextKeysPending[nextKey]) {
         for (i = 0; i < nextKeysPending[nextKey].length; i++) {
@@ -120,20 +84,16 @@ const TransitionFLIPS: React.FC<TransitionFLIPS> = (props) => {
   };
 
   const getMap = (
-    children: React.ReactNode,
-    callback?: (
-      child: React.ReactNode,
-      index?: number,
-      total?: number,
-    ) => React.ReactNode
-  ): ChildrenMap => {
+    children,
+    callback
+  ) => {
     const map = Object.create(null);
     if (children) {
       const childs = React.Children.map(children, c => c);
       const total = childs?.length;
       // 如果没有手动添加key, React.Children.map会自动添加key
       childs?.forEach((child, index) => {
-        const key = (child as React.ReactElement).key || '';
+        const key = (child).key || '';
         if (key) {
           if (React.isValidElement(child) && isFunc(callback)) {
             map[key] = callback(child, index, total);
@@ -147,10 +107,10 @@ const TransitionFLIPS: React.FC<TransitionFLIPS> = (props) => {
   };
 
   const initChildren = (
-    children: React.ReactNode,
-  ): ChildrenMap => {
+    children,
+  ) => {
     return getMap(children, (child, index, total) => {
-      return React.cloneElement(child as React.ReactElement, {
+      return React.cloneElement(child, {
         _index: index,
         _total: total,
         _duration: inOutDuration,
@@ -159,7 +119,7 @@ const TransitionFLIPS: React.FC<TransitionFLIPS> = (props) => {
         _interval: interval,
         _reverse: staggerReverse,
         _onLeave: () => {
-          const key = (child as React.ReactElement).key || '';
+          const key = (child).key || '';
           handleLeave(key);
         },
       });
@@ -167,9 +127,9 @@ const TransitionFLIPS: React.FC<TransitionFLIPS> = (props) => {
   };
 
   const nextChildren = (
-    nextChildren: React.ReactNode,
-    prevChildrenMap: ChildrenMap,
-  ): ChildrenMap => {
+    nextChildren,
+    prevChildrenMap,
+  ) => {
     const nextChildrenMap = getMap(nextChildren);
     const children = mergeMap(prevChildrenMap, nextChildrenMap);
     const keys = Object.keys(children);
@@ -184,7 +144,7 @@ const TransitionFLIPS: React.FC<TransitionFLIPS> = (props) => {
       const isNew = hasKeyByNew && !hasKeyByPrev;
       const isDelete = !hasKeyByNew && hasKeyByPrev;
       const isNeverChange = hasKeyByNew && hasKeyByPrev;
-      const prevProps = ((prevChildrenMap[key] as React.ReactElement)?.props as TransitionFLIP);
+      const prevProps = ((prevChildrenMap[key])?.props);
       if (isNew) {
         children[key] = React.cloneElement(child, {
           _transitionStyles: transitionStyles,
@@ -195,7 +155,7 @@ const TransitionFLIPS: React.FC<TransitionFLIPS> = (props) => {
           _interval: interval,
           _reverse: staggerReverse,
           _onLeave: () => {
-            const key = (child as React.ReactElement).key || '';
+            const key = (child).key || '';
             handleLeave(key);
           },
         });
@@ -217,7 +177,7 @@ const TransitionFLIPS: React.FC<TransitionFLIPS> = (props) => {
           _reverse: staggerReverse,
           _transitionStyles: prevProps._transitionStyles,
           _onLeave: () => {
-            const key = (child as React.ReactElement).key || '';
+            const key = (child).key || '';
             handleLeave(key);
           },
         });
@@ -226,13 +186,13 @@ const TransitionFLIPS: React.FC<TransitionFLIPS> = (props) => {
     return children;
   };
 
-  const firstMount = useRef<boolean>(true);
-  const [children, setChildren] = useState<ChildrenMap>(() => {
+  const firstMount = useRef(true);
+  const [children, setChildren] = useState(() => {
     return initChildren(_children);
   });
-  const catchStyles = useRef<CatchStylesMap>(new Map()).current;
-  const catchAnimations = useRef<CatchAnimations>(new Map()).current;
-  const animationOption: KeyframeAnimationOptions = {
+  const catchStyles = useRef(new Map()).current;
+  const catchAnimations = useRef(new Map()).current;
+  const animationOption = {
     delay,
     duration,
     easing,

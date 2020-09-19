@@ -5,13 +5,13 @@ import {
   useEffect,
   useContext,
 } from 'react';
-import noop from '../util/noop';
+import noop from './util/noop';
 import {
   isObj,
   isNum,
   isUnd,
   isFunc,
-} from '../util/checkType';
+} from './util/checkType';
 import { TransitionContext } from './TransitionGroup';
 import { TransitionQueueContext } from './TransitionQueue';
 import { v4 as uuid } from 'uuid';
@@ -19,49 +19,15 @@ import { v4 as uuid } from 'uuid';
 const defaultDuration = 200;
 const defaultDelay = 0;
 
-interface TransitionDuration {
-  enter: number;
-  leave: number;
+export const STATUS = {
+  UNMOUNTED: 'unmounted',
+  ENTER: 'enter',
+  ENTERING: 'entering',
+  LEAVE: 'leave',
+  LEAVEING: 'leaveing',
 }
 
-interface TransitionDisplay {
-  enter: React.CSSProperties;
-  leave: React.CSSProperties;
-}
-
-export interface TransitionStyles {
-  enter?: React.CSSProperties;
-  entering?: React.CSSProperties;
-  leave?: React.CSSProperties;
-  leaveing?: React.CSSProperties;
-}
-
-export interface TransitionProps {
-  display?: boolean | TransitionDisplay;
-  duration?: number | TransitionDuration; // 动画持续时间
-  delay?: number; // 动画开启前的延迟时间
-  animation?: boolean; // 动画的开关
-  children: React.ReactElement;
-  unmount?: boolean; // 是否在离开后销毁DOM
-  enter?: boolean; // 开启 LEAVE -> ENTERING -> ENTER 关闭 LEAVE -> ENTER
-  leave?: boolean; // 开启 ENTER -> LEAVEING -> LEAVE 关闭 ENTER -> LEAVE
-  appear?: boolean; // 首次加载时 开启 LEAVE -> ENTERING -> ENTER 关闭 LEAVE -> ENTER
-  timingFunction?: (string & {}) | "-moz-initial" | "inherit" | "initial" | "revert" | "unset" | "ease" | "ease-in" | "ease-in-out" | "ease-out" | "step-end" | "step-start" | "linear"; // 动画函数
-  transitionStyles?: TransitionStyles; // 过渡的样式
-  onLeave?: () => void;
-  onEnter?: () => void;
-}
-
-export enum STATUS {
-  UNMOUNTED = 'unmounted', // 卸载
-  ENTER = 'enter', // 已经进入
-  ENTERING = 'entering', // 进入时
-  LEAVE = 'leave', // 已经离开
-  LEAVEING = 'leaveing', // 离开时
-}
-
-// TODO: 需要完善类型
-const Transition: React.FC<TransitionProps> = (props) => {
+const Transition = (props) => {
   const {
     display = false,
     timingFunction = 'ease-in-out',
@@ -87,12 +53,12 @@ const Transition: React.FC<TransitionProps> = (props) => {
   const { _initStatus } = useContext(TransitionQueueContext);
   const [animation, setAnimation] = useState(_animation);
   const firstMount = useRef(true);
-  const nextStatus = useRef<null | STATUS>(null);
-  const prevStatus = useRef<null | STATUS>(null);
+  const nextStatus = useRef(null);
+  const prevStatus = useRef(null);
   const timer = useRef(0);
   const ID = useRef(uuid());
-  const [status, setStatus] = useState<STATUS>(() => {
-    let initStatus!: STATUS;
+  const [status, setStatus] = useState(() => {
+    let initStatus;
     if (_initStatus) {
       return _initStatus;
     }
@@ -112,9 +78,9 @@ const Transition: React.FC<TransitionProps> = (props) => {
     }
     return initStatus;
   });
-  const [duration] = useState<TransitionDuration>(() => {
-    let enter: number = defaultDuration;
-    let leave: number = defaultDuration;
+  const [duration] = useState(() => {
+    let enter = defaultDuration;
+    let leave = defaultDuration;
     if (isObj(_duration)) {
       enter = isNum(_duration.enter) ? _duration.enter : defaultDuration;
       leave = isNum(_duration.leave) ? _duration.leave : defaultDuration;
@@ -127,12 +93,12 @@ const Transition: React.FC<TransitionProps> = (props) => {
       leave,
     };
   });
-  const [delay, setDelay] = useState<number>(_delay);
-  const [displayStyles, setDisplayStyles] = useState<React.CSSProperties>({});
+  const [delay, setDelay] = useState(_delay);
+  const [displayStyles, setDisplayStyles] = useState({});
 
   const handleTransitionTime = (
-    time: number,
-    callback: Function,
+    time,
+    callback,
   ) => {
     let timer = 0;
     callback = isFunc(callback) ? callback : noop;
@@ -185,8 +151,8 @@ const Transition: React.FC<TransitionProps> = (props) => {
   };
 
   const updateStatus = (
-    nextStatus: STATUS | null,
-  ): void => {
+    nextStatus,
+  ) => {
     if (nextStatus) {
       if (nextStatus === STATUS['ENTERING']) {
         handleEnter();

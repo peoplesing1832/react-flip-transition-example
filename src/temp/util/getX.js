@@ -1,4 +1,4 @@
-const getX = (prevRect: DOMRect, nextRect: DOMRect) => {
+const getX = (prevRect, nextRect) => {
   return prevRect.x - nextRect.x;
 };
 

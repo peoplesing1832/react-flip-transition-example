@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as React from 'react';
 import {
   useState,
@@ -8,34 +9,20 @@ import {
   isFunc,
 } from './util/checkType';
 import {
-  TransitionProps,
   STATUS,
 } from './Transition';
 
-interface TransitionQueue {
-  appear?: boolean;
-  enter?: boolean;
-  leave?: boolean;
-  wrap?: string;
-  wrapClassName?: string;
-}
 
-export type ChildrenMap = {
-  [key: string]: React.ReactNode
-};
-
-function getProps<T>(p1: T, p2: T): T {
+function getProps(p1, p2) {
   if (p1 === undefined) {
     return p2;
   }
   return p1;
 }
 
-export const TransitionQueueContext = React.createContext({} as {
-  _initStatus: STATUS,
-});
+export const TransitionQueueContext = React.createContext({});
 
-const TransitionQueue: React.FC<TransitionQueue> = (props) => {
+const TransitionQueue = (props) => {
 
   const {
     children: _children,
@@ -46,10 +33,10 @@ const TransitionQueue: React.FC<TransitionQueue> = (props) => {
     wrapClassName = '',
   } = props;
 
-  const mergeMap = (prev: ChildrenMap, next: ChildrenMap): ChildrenMap => {
+  const mergeMap = (prev, next) => {
     prev = prev || {};
     next = next || {};
-    function getValueForKey(key: React.ReactText) {
+    function getValueForKey(key) {
       return key in next ? next[key] : prev[key];
     }
     let nextKeysPending = Object.create(null);
@@ -65,7 +52,7 @@ const TransitionQueue: React.FC<TransitionQueue> = (props) => {
       }
     }
     let i;
-    let childMapping: ChildrenMap = {};
+    let childMapping = {};
     for (let nextKey in next) {
       if (nextKeysPending[nextKey]) {
         for (i = 0; i < nextKeysPending[nextKey].length; i++) {
@@ -84,14 +71,13 @@ const TransitionQueue: React.FC<TransitionQueue> = (props) => {
   };
 
   const getMap = (
-    children: React.ReactNode,
-    callback?: (child: React.ReactNode) => React.ReactNode
-  ): ChildrenMap => {
+    children,
+    callback,
+  ) => {
     const map = Object.create(null);
     if (children) {
-      // 如果没有手动添加key, React.Children.map会自动添加key
       React.Children.map(children, c => c)?.forEach((child) => {
-        const key = (child as React.ReactElement).key || '';
+        const key = (child).key || '';
         if (key) {
           if (React.isValidElement(child) && isFunc(callback)) {
             map[key] = callback(child);
@@ -105,17 +91,17 @@ const TransitionQueue: React.FC<TransitionQueue> = (props) => {
   };
 
   const initChildren = (
-    children: React.ReactNode,
-  ): ChildrenMap => {
+    children,
+  ) => {
     return getMap(children, (child) => {
-      const props = ((child as React.ReactElement)?.props as TransitionProps);
-      return React.cloneElement(child as React.ReactElement, {
+      const props = ((child)?.props);
+      return React.cloneElement(child, {
         animation: true,
         appear: getProps(appear, props.appear),
         enter: getProps(enter, props.enter),
         leave: getProps(leave, props.leave),
         onLeave: () => {
-          const key = (child as React.ReactElement).key || '';
+          const key = (child).key || '';
           handleLeave(key);
         },
       });
@@ -123,9 +109,9 @@ const TransitionQueue: React.FC<TransitionQueue> = (props) => {
   };
 
   const nextChildren = (
-    nextChildren: React.ReactNode,
-    prevChildrenMap: ChildrenMap,
-  ): ChildrenMap => {
+    nextChildren,
+    prevChildrenMap,
+  ) => {
     const nextChildrenMap = getMap(nextChildren);
     const children = mergeMap(prevChildrenMap, nextChildrenMap);
     Object.keys(children).forEach(key => {
@@ -138,8 +124,8 @@ const TransitionQueue: React.FC<TransitionQueue> = (props) => {
       const isNew = hasKeyByNew && !hasKeyByPrev;
       const isDelete = !hasKeyByNew && hasKeyByPrev;
       const isNeverChange = hasKeyByNew && hasKeyByPrev;
-      const prevProps = ((prevChildrenMap[key] as React.ReactElement)?.props as TransitionProps);
-      const nextProps = ((nextChildrenMap[key] as React.ReactElement)?.props as TransitionProps);
+      const prevProps = ((prevChildrenMap[key])?.props);
+      const nextProps = ((nextChildrenMap[key])?.props);
       if (isNew) {
         children[key] = React.cloneElement(child, {
           animation: true,
@@ -147,7 +133,7 @@ const TransitionQueue: React.FC<TransitionQueue> = (props) => {
           enter: getProps(enter, nextProps.enter),
           leave: getProps(leave, nextProps.leave),
           onLeave: () => {
-            const key = (child as React.ReactElement).key || '';
+            const key = (child).key || '';
             handleLeave(key);
           },
         });
@@ -162,7 +148,7 @@ const TransitionQueue: React.FC<TransitionQueue> = (props) => {
           enter: prevProps.enter,
           leave: prevProps.leave,
           onLeave: () => {
-            const key = (child as React.ReactElement).key || '';
+            const key = (child).key || '';
             handleLeave(key);
           },
         });
@@ -171,7 +157,7 @@ const TransitionQueue: React.FC<TransitionQueue> = (props) => {
     return children;
   };
 
-  const handleLeave = (key: React.ReactText) => {
+  const handleLeave = (key) => {
     setChildren((prevChildren) => {
       if (key in prevChildren) {
         delete prevChildren[key];
@@ -180,8 +166,8 @@ const TransitionQueue: React.FC<TransitionQueue> = (props) => {
     });
   };
 
-  const firstMount = useRef<boolean>(true);
-  const [children, setChildren] = useState<ChildrenMap>(() => {
+  const firstMount = useRef(true);
+  const [children, setChildren] = useState>(() => {
     return initChildren(_children);
   });
 

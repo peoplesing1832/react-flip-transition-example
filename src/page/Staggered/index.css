@@ -1,0 +1,25 @@
+.staggered-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  padding: 100px;
+  box-sizing: border-box;
+}
+
+.staggered-item {
+  width: 600px;
+  height: 70px;
+  background-color: aquamarine;
+  margin: 10px;
+  font-size: 18px;
+  line-height: 70px;
+  color: #fff;
+  text-align: center;
+}
+
+.staggered-item-active {
+  height: 140px;
+}

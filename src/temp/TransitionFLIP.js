@@ -5,9 +5,7 @@ import {
   useEffect,
   useLayoutEffect,
 } from 'react';
-import Transition, {
-  TransitionStyles
-} from './Transition';
+import Transition from './Transition';
 import { FLIPSContext } from './TransitionFLIPS';
 import getRect from './util/getReact';
 import getX from './util/getX';
@@ -18,20 +16,7 @@ import getParent from './util/getParent';
 import getStyles from './util/getStyles';
 import createAnimation from './util/createAnimation';
 
-export interface TransitionFLIP {
-  children: React.ReactElement;
-  flipId: string | number;
-  _onLeave?: () => void;
-  _animation?: boolean;
-  _transitionStyles?: TransitionStyles;
-  _duration?: number;
-  _index?: number;
-  _total?: number;
-  _reverse?: boolean;
-  _interval?: number;
-}
-
-const TransitionFLIP: React.FC<TransitionFLIP> = (props) => {
+const TransitionFLIP = (props) => {
 
   const {
     _onLeave: onLeave,
@@ -52,8 +37,8 @@ const TransitionFLIP: React.FC<TransitionFLIP> = (props) => {
     animationOption,
   } = useContext(FLIPSContext);
 
-  const selfRef = useRef<HTMLElement>(null);
-  const firstMount = useRef<boolean>(true);
+  const selfRef = useRef(null);
+  const firstMount = useRef(true);
   const FLIPID = useRef(flipId);
 
   const force = () => {
@@ -65,7 +50,7 @@ const TransitionFLIP: React.FC<TransitionFLIP> = (props) => {
     ) {
       if (
         catchAnimation.playState === 'running' &&
-        (catchAnimation as any)._isPlayed
+        (catchAnimation)._isPlayed
       ) {
         const parent = getParent(flipEle);
         const parentRect = getRect(parent);
@@ -78,7 +63,7 @@ const TransitionFLIP: React.FC<TransitionFLIP> = (props) => {
           rect,
           styles,
         });
-        (catchAnimation as any)._isPlayed = false;
+        (catchAnimation)._isPlayed = false;
         catchAnimation.finish();
       }
     }
@@ -119,10 +104,10 @@ const TransitionFLIP: React.FC<TransitionFLIP> = (props) => {
         // 基于父级元素的
         nextRect.x = parentRect.x - nextRect.x;
         nextRect.y = parentRect.y - nextRect.y;
-        const x = getX(nextRect, catchRect?.rect as DOMRect);
-        const y = getY(nextRect, catchRect?.rect as DOMRect);
-        const w = getW(catchRect?.rect as DOMRect, nextRect);
-        const h = getH(catchRect?.rect as DOMRect, nextRect);
+        const x = getX(nextRect, catchRect?.rect);
+        const y = getY(nextRect, catchRect?.rect);
+        const w = getW(catchRect?.rect, nextRect);
+        const h = getH(catchRect?.rect, nextRect);
         // 更新缓存
         catchStyles.set(FLIPID.current, {
           rect: nextRect,
@@ -134,11 +119,11 @@ const TransitionFLIP: React.FC<TransitionFLIP> = (props) => {
         let staggerDelay = 0;
         // 正序，倒序计算不一样
         if (reverse) {
-          staggerDelay = ((total as number) - (index as number + 1)) * (interval as number);
+          staggerDelay = ((total) - (index + 1)) * (interval);
         } else {
-          staggerDelay = (index as number) * (interval as number);
+          staggerDelay = (index) * (interval);
         }
-        const animationKeyframes: Keyframe[] = [
+        const animationKeyframes = [
           {
             transform: `translate(${x}px, ${y}px) scale(${w}, ${h})`,
             backgroundColor: pbc,
@@ -149,8 +134,8 @@ const TransitionFLIP: React.FC<TransitionFLIP> = (props) => {
           },
         ];
         let prevTransformStyle = window.getComputedStyle(flipEle).transform;
-        flipEle.style.transform = animationKeyframes[0].transform as string;
-        const animationOptions: KeyframeAnimationOptions = animationOption;
+        flipEle.style.transform = animationKeyframes[0].transform;
+        const animationOptions = animationOption;
         animationOptions.delay = staggerDelay;
         const animation = createAnimation(flipEle, animationKeyframes, animationOptions);
         catchAnimations.set(FLIPID.current, animation);
@@ -159,7 +144,7 @@ const TransitionFLIP: React.FC<TransitionFLIP> = (props) => {
         };
         animation.play();
         // _isPlayed 标示符，解决多次force的问题
-        (animation as any)._isPlayed = true;
+        (animation)._isPlayed = true;
       }
     }
   });

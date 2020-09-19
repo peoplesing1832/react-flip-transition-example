@@ -1,4 +1,4 @@
-const getRect = (ele: HTMLElement): DOMRect => {
+const getRect = (ele) => {
   return ele.getBoundingClientRect();
 };
 
