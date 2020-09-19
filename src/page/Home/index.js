@@ -18,7 +18,7 @@ const Home = () => {
           <Link to="/list">列表</Link>
         </li>
         <li>
-          <Link to="/staggered">交错效果(预览, 暂不可用)</Link>
+          <Link to="/staggered">交错效果(开发中)</Link>
         </li>
       </ul>
     </div>

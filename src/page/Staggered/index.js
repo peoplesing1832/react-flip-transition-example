@@ -13,14 +13,21 @@ const Staggered = () => {
 
   return (
     <div className="staggered-container">
-      <TransitionFLIPS>
+      <h1 style={{
+        marginBottom: 10,
+      }}>随意点击一个元素，实现交错效果（目前开发之中，存在很多问题，暂不可用）</h1>
+      <TransitionFLIPS
+        interval={150}
+        duration={500}
+        staggerReverse={focus ? true : false}
+      >
         {
           list && list.map((item) => {
             return (
               <TransitionFLIP flipId={item} key={item}>
                 <div className={focus === item ? 'staggered-item-active staggered-item' : 'staggered-item'} onClick={() => {
                   setFocus(focus === item ? '' : item);
-                }}>点击我</div>
+                }}></div>
               </TransitionFLIP>
             )
           })

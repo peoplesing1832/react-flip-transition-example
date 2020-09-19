@@ -12,12 +12,13 @@
 .staggered-item {
   width: 600px;
   height: 70px;
-  background-color: aquamarine;
-  margin: 10px;
+  background-color: aqua;
   font-size: 18px;
   line-height: 70px;
   color: #fff;
   text-align: center;
+  transform-origin: top;
+  margin-bottom: 10px;
 }
 
 .staggered-item-active {
