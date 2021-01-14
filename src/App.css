@@ -1,5 +1,5 @@
 .App {
-  width: 700px;
+  width: 920px;
   height: auto;
   font-size: 14px;
   color: #304455;
@@ -12,7 +12,7 @@
 .doc-title {
   font-size: 1.17em;
   font-weight: 600;
-  line-height: 4.17em;
+  margin: 40px 0 20px 0;
 }
 
 .doc-code {
@@ -21,7 +21,7 @@
 
 .doc-button {
   display: inline-block;
-  margin: 20px 5px;
+  margin: 20px 5px 20px 0;
 }
 
 .fade-leaveed {
@@ -69,5 +69,49 @@
 }
 .observer-entering {
   opacity: 1;
+  transition: all 1s;
+}
+
+.flip1-list-item {
+  padding: 6px 0;
+}
+.flip1-move {
+  transition: all 1s;
+}
+
+.flip2-leaveed {
+  opacity: 0;
+  transform: translateY(50px);
+}
+.flip2-leaveing {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 1s;
+}
+.flip2-entering {
+  opacity: 1;
+  transition: all 1s;
+}
+.flip2-move {
+  transition: all 1s;
+}
+
+.matrix {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  width: 234px;
+  height: 234px;
+}
+.matrix-item {
+  width: 26px;
+  height: 26px;
+  box-sizing: border-box;
+  line-height: 24px;
+  border: 1px solid #eee;
+  text-align: center;
+}
+.matrix-move {
   transition: all 1s;
 }
