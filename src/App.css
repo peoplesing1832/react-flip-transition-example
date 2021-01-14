@@ -20,7 +20,8 @@
 }
 
 .doc-button {
-  margin: 20px 0;
+  display: inline-block;
+  margin: 20px 5px;
 }
 
 .fade-leaveed {
@@ -30,7 +31,7 @@
 .fade-leaveing {
   opacity: 0;
   transform: translateX(50px);
-  transition: all 400ms ease-in-out;
+  transition: all 600ms ease-in;
 }
 .fade-entering {
   opacity: 1;
@@ -49,3 +50,24 @@
   transform: scale(0);
 }
 
+.observer-list {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.observer-list-item {
+  margin-right: 10px;
+}
+.observer-leaveed {
+  opacity: 0;
+  transform: translateY(50px);
+}
+.observer-leaveing {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 1s;
+}
+.observer-entering {
+  opacity: 1;
+  transition: all 1s;
+}
