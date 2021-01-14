@@ -16,6 +16,7 @@ function App() {
   const [state, setState] = useState(true);
   const [state2, setState2] = useState(true);
   const [state3, setState3] = useState(true);
+  const [state4, setState4] = useState(true);
   const [list, setList] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
   const [list2, setList2] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
   const [list3, setList3] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
@@ -26,6 +27,7 @@ function App() {
     }
     return result;
   });
+  const [list5, setList5] = useState([1, 2]);
   const nextNum = useRef(10);
 
   const randomIndex = () => {
@@ -222,6 +224,32 @@ function App() {
                 key={item}
               >
                 <div className="matrix-item">{ item }</div>
+              </Flip>
+            )
+          })
+        }
+      </Flips>
+      <button
+        className="doc-button"
+        onClick={() => {
+          const [a, b] = list5;
+          setList5([b, a]);
+        }}
+      >
+        toggle
+      </button>
+      <Flips
+        wrapClass="matrix"
+        wrap="div"
+        name="test"
+      >
+        {
+          list5 && list5.map((item) => {
+            return (
+              <Flip
+                key={item}
+              >
+                <div className="test-item">{ item }</div>
               </Flip>
             )
           })
