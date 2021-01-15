@@ -9,7 +9,7 @@
     "lodash": "^4.17.20",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-flip-transition": "0.0.7",
+    "react-flip-transition": "0.0.9",
     "react-scripts": "3.4.3"
   },
   "scripts": {
