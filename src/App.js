@@ -10,13 +10,12 @@ import {
   Flip,
   Flips,
 } from 'react-flip-transition';
-import { flip, shuffle } from 'lodash'
+import { shuffle } from 'lodash'
 
 function App() {
   const [state, setState] = useState(true);
   const [state2, setState2] = useState(true);
   const [state3, setState3] = useState(true);
-  const [state4, setState4] = useState(true);
   const [list, setList] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
   const [list2, setList2] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
   const [list3, setList3] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
@@ -238,23 +237,6 @@ function App() {
       >
         toggle
       </button>
-      <Flips
-        wrapClass="matrix"
-        wrap="div"
-        name="test"
-      >
-        {
-          list5 && list5.map((item) => {
-            return (
-              <Flip
-                key={item}
-              >
-                <div className="test-item">{ item }</div>
-              </Flip>
-            )
-          })
-        }
-      </Flips>
     </div>
   );
 }
