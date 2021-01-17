@@ -14,7 +14,6 @@ import { shuffle } from 'lodash'
 
 function App() {
   const [state, setState] = useState(true);
-  const [state2, setState2] = useState(true);
   const [state3, setState3] = useState(true);
   const [list, setList] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
   const [list2, setList2] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
@@ -32,9 +31,289 @@ function App() {
     return Math.floor(Math.random() * list.length);
   };
 
+  const str1css =
+`
+.fade-leaveed {
+  opacity: 0;
+  transform: translateX(10px);
+}
+.fade-leaveing {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: all 600ms ease-in;
+}
+.fade-entering {
+  opacity: 1;
+  transition: all 200ms;
+}
+`;
+
+  const str1js =
+`
+import { Transition } from 'react-flip-transition';
+
+const [state, setState] = useState(true);
+
+<button
+  onClick={() => setState(!state)}
+  className="doc-button"
+>
+  toggle
+</button>
+
+<Transition
+  name="fade"
+  animation={state}
+  duration={{enter: 200, leave: 600, }}
+>
+  <div>hello world</div>
+</Transition>
+`
+  const str2css =
+`
+.fade-leaveed {
+  opacity: 0;
+  transform: translateX(10px);
+}
+.fade-leaveing {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: all 600ms ease-in;
+}
+.fade-entering {
+  opacity: 1;
+  transition: all 200ms;
+}
+`;
+  const str2js =
+`
+import { Transition, Transitions } from 'react-flip-transition'
+
+const [state3, setState3] = useState(true);
+
+<button
+  onClick={() => setState3(!state3)}
+  className="doc-button"
+>
+  toggle
+</button>
+
+<Transitions
+  masterSwitch={state3}
+  prefix="fade"
+  interval={300}
+>
+  <ul>
+    <Transition unmount>
+      <li className="flip1-list-item">1</li>
+    </Transition>
+    <Transition unmount>
+      <li className="flip1-list-item">2</li>
+    </Transition>
+    <Transition unmount>
+      <li className="flip1-list-item">3</li>
+    </Transition>
+    <Transition unmount>
+      <li className="flip1-list-item">4</li>
+    </Transition>
+    <Transition unmount>
+      <li className="flip1-list-item">5</li>
+    </Transition>
+    <Transition unmount>
+      <li className="flip1-list-item">6</li>
+    </Transition>
+  </ul>
+</Transitions>
+`;
+
+  const str3css =
+`
+.observer-list {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.observer-list-item {
+  margin-right: 10px;
+}
+.observer-leaveed {
+  opacity: 0;
+  transform: translateY(50px);
+}
+.observer-leaveing {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 1s;
+}
+.observer-entering {
+  opacity: 1;
+  transition: all 1s;
+}
+`;
+
+  const str3js =
+`
+import { Transition, Observer } from 'react-flip-transition';
+
+const [list, setList] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+
+<Observer
+  wrapClass="observer-list"
+  wrap="div"
+>
+  {
+    list && list.map((item) => {
+      return (
+        <Transition
+          key={item}
+          name="observer"
+          duration={1000}
+        >
+          <div className="observer-list-item">{ item }</div>
+        </Transition>
+      )
+    })
+  }
+</Observer>
+`;
+
+  const str4css =
+`
+.flip1-list-item {
+  padding: 6px 0;
+}
+.flip1-move {
+  transition: all 1s;
+}
+`;
+
+  const str4js =
+`
+import { Flip, Flips, } from 'react-flip-transition';
+
+const [list2, setList2] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+
+<Flips
+  name="flip1"
+  wrap="ul"
+>
+  {
+    list2 && list2.map((item) => {
+      return (
+        <Flip key={item}>
+          <li className="flip1-list-item">{ item }</li>
+        </Flip>
+      );
+    })
+  }
+</Flips>
+`;
+
+  const str5css =
+`
+.flip2-leaveed {
+  opacity: 0;
+  transform: translateY(50px);
+}
+.flip2-leaveing {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 1s;
+}
+.flip2-entering {
+  opacity: 1;
+  transition: all 1s;
+}
+.flip2-move {
+  transition: all 1s;
+}
+`;
+
+  const str5js =
+`
+import { Flip, Flips, } from 'react-flip-transition';
+
+const [list3, setList3] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+
+<Flips
+  wrapClass="observer-list"
+  wrap="div"
+  name="flip2"
+  inOutDuration={1000}
+>
+  {
+    list3 && list3.map((item) => {
+      return (
+        <Flip
+          key={item}
+        >
+          <div className="observer-list-item">{ item }</div>
+        </Flip>
+      )
+    })
+  }
+</Flips>
+`;
+
+  const str6css =
+`
+.matrix {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  width: 234px;
+  height: 234px;
+}
+.matrix-item {
+  width: 26px;
+  height: 26px;
+  box-sizing: border-box;
+  line-height: 24px;
+  border: 1px solid #eee;
+  text-align: center;
+}
+.matrix-move {
+  transition: all 1s;
+}
+`;
+
+  const str6js =
+`
+import { Flip, Flips, } from 'react-flip-transition';
+
+const [list4, setList4] = useState(() => {
+  const result = [];
+  for (let i = 1; i <= 81; i++) {
+    result.push(i);
+  }
+  return result;
+});
+
+<Flips
+  wrapClass="matrix"
+  wrap="div"
+  name="matrix"
+>
+  {
+    list4 && list4.map((item) => {
+      return (
+        <Flip
+          key={item}
+        >
+          <div className="matrix-item">{ item }</div>
+        </Flip>
+      )
+    })
+  }
+</Flips>
+`;
+
   return (
     <div className="App">
       <h3 className="doc-title">最简单的过渡</h3>
+      <code>{ str1css }</code>
+      <code>{ str1js }</code>
       <button
         onClick={() => setState(!state)}
         className="doc-button"
@@ -51,21 +330,9 @@ function App() {
       >
         <div>hello world</div>
       </Transition>
-      <button
-        onClick={() => setState2(!state2)}
-        className="doc-button"
-      >
-        toggle
-      </button>
-      <Transition
-        name="bounce"
-        animation={state2}
-        duration={500}
-        unmount
-      >
-        <p>We hold these truths to be self-evident, that all men are created equal, that they are endowed by their Creator with certain unalienable Rights, that among these are Life, Liberty, and the pursuit of Happiness. That to secure these rights, Governments are instituted among Men, deriving their just powers from the consent of the governed.That whenever any form of Government becomes destructive of these ends, it is the Right of the People to alter or to abolish it, and to institute new Government, laying its foundation on such principles and organizing its powers in such form, as to them shall seem most likely to effect their Safety and Happiness. Prudence, indeed, will dictate that Governments long established should not be changed for light and transient causes; and accordingly all experience has shown, that mankind are more disposed to suffer, while evils are sufferable, than to right themselves by abolishing the forms to which they are accustomed. But when a long train of abuses and usurpations, pursuing invariably the same Object, evinces a design to reduce them under absolute Despotism, it is their right, it is their duty, to throw off such Government, and to provide new Guards for their future security.</p>
-      </Transition>
       <h3 className="doc-title">多个元素过渡</h3>
+      <code>{ str2css }</code>
+      <code>{ str2js }</code>
       <button
         onClick={() => setState3(!state3)}
         className="doc-button"
@@ -99,6 +366,8 @@ function App() {
         </ul>
       </Transitions>
       <h3 className="doc-title">列表过渡</h3>
+      <code>{ str3css }</code>
+      <code>{ str3js }</code>
       <button
         className="doc-button"
         onClick={() => {
@@ -136,6 +405,8 @@ function App() {
         }
       </Observer>
       <h3 className="doc-title">排序过渡</h3>
+      <code>{ str4css }</code>
+      <code>{ str4js }</code>
       <button
         className="doc-button"
         onClick={() => {
@@ -158,6 +429,9 @@ function App() {
           })
         }
       </Flips>
+      <h3 className="doc-title">排序过渡和新增与删除</h3>
+      <code>{ str5css }</code>
+      <code>{ str5js }</code>
       <button
         className="doc-button"
         onClick={() => {
@@ -202,6 +476,9 @@ function App() {
           })
         }
       </Flips>
+      <h3 className="doc-title">排序过渡和多维表格</h3>
+      <code>{ str6css }</code>
+      <code>{ str6js }</code>
       <button
         className="doc-button"
         onClick={() => {
