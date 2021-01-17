@@ -9,6 +9,13 @@
   margin: 0 auto;
 }
 
+hr {
+  margin: 20px 0;
+  height: 1px;
+  background-color: #304455;
+  border: none;
+}
+
 .doc-title {
   font-size: 1.17em;
   font-weight: 600;
@@ -22,6 +29,14 @@
 .doc-button {
   display: inline-block;
   margin: 20px 5px 20px 0;
+}
+
+code {
+  display: block;
+  width: 100%;
+  margin: 15px 0;
+  white-space: normal;
+  background-color: #fef6e3;
 }
 
 .fade-leaveed {

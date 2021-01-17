@@ -26,7 +26,6 @@ function App() {
     }
     return result;
   });
-  const [list5, setList5] = useState([1, 2]);
   const nextNum = useRef(10);
 
   const randomIndex = () => {
@@ -64,7 +63,7 @@ function App() {
         duration={500}
         unmount
       >
-        <div>At this point I have a request for our fans. If any of you in any way hate homosexuals, people of a different color, or women, please do this one favor for us─leave us the fuck alone! Don't come to our shows, and don't buy our records.</div>
+        <p>We hold these truths to be self-evident, that all men are created equal, that they are endowed by their Creator with certain unalienable Rights, that among these are Life, Liberty, and the pursuit of Happiness. That to secure these rights, Governments are instituted among Men, deriving their just powers from the consent of the governed.That whenever any form of Government becomes destructive of these ends, it is the Right of the People to alter or to abolish it, and to institute new Government, laying its foundation on such principles and organizing its powers in such form, as to them shall seem most likely to effect their Safety and Happiness. Prudence, indeed, will dictate that Governments long established should not be changed for light and transient causes; and accordingly all experience has shown, that mankind are more disposed to suffer, while evils are sufferable, than to right themselves by abolishing the forms to which they are accustomed. But when a long train of abuses and usurpations, pursuing invariably the same Object, evinces a design to reduce them under absolute Despotism, it is their right, it is their duty, to throw off such Government, and to provide new Guards for their future security.</p>
       </Transition>
       <h3 className="doc-title">多个元素过渡</h3>
       <button
@@ -228,15 +227,6 @@ function App() {
           })
         }
       </Flips>
-      <button
-        className="doc-button"
-        onClick={() => {
-          const [a, b] = list5;
-          setList5([b, a]);
-        }}
-      >
-        toggle
-      </button>
     </div>
   );
 }
