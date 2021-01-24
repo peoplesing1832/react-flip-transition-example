@@ -423,7 +423,7 @@ const [list4, setList4] = useState(() => {
           list2 && list2.map((item) => {
             return (
               <Flip key={item}>
-                <li className="flip1-list-item">{ item }</li>
+                <li data-flip-id={item} className="flip1-list-item">{ item }</li>
               </Flip>
             );
           })
@@ -470,7 +470,7 @@ const [list4, setList4] = useState(() => {
               <Flip
                 key={item}
               >
-                <div className="observer-list-item">{ item }</div>
+                <div data-flip-id={item} className="observer-list-item">{ item }</div>
               </Flip>
             )
           })
@@ -498,7 +498,7 @@ const [list4, setList4] = useState(() => {
               <Flip
                 key={item}
               >
-                <div className="matrix-item">{ item }</div>
+                <div data-flip-id={item} className="matrix-item">{ item }</div>
               </Flip>
             )
           })
